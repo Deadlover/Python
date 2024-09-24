@@ -18,37 +18,36 @@
 
 # Your solution should demonstrate proper encapsulation and adherence to OOP principles.
 
+
 class Car:
-    def __init__(self, make, model, year):
-        self._odometer = 0
-        self.car_make = make
-        self.Car_model = model
-        self.Car_year = year
-
-    def get_car(self):
-        return self.car_make,self.Car_model,self.Car_year
-
-    def get_odometer(self):
-        return self._odometer
+    def __init__(self, make, model, year, odometer=0):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer = odometer
     
-    def car_drive(self,miles):
-        self._odometer+=miles
-        return f"Car drived {miles} miles"
+    def update_odometer(self, mileage):
+        if mileage >= self.odometer:
+            self.odometer = mileage
+        else:
+            print("You can't roll back an odometer!")
+    
+    def retrieve_odometer(self):
+        return self.odometer
+    
 
-    def update_odometer(self, odometer):
-        if self._odometer > odometer: 
-            return print("invalid value")
-        self._odometer = odometer
+car = Car('Tesla', 'Model S', 2022)
+print(car.make)
+print(car.model)
+print(car.year)
+print(car.retrieve_odometer())
 
-Mycar = Car("tata","t20","2024")
+car.update_odometer(100)
+print(car.retrieve_odometer())
 
-print(Mycar.get_car())
-print(Mycar.get_odometer())
-print(Mycar.update_odometer(100))
-print(Mycar.get_odometer())
-print(Mycar.update_odometer(50))
-print(Mycar.car_drive(50))
-print(Mycar.get_odometer())
+car.update_odometer(50)  
+
+print(car.retrieve_odometer())
 
 
 
@@ -109,18 +108,24 @@ print(rect.perimeter())
 # (Note log is just “Texts”)
 import time
 
-def execution_time(func):
-    def wrapper(*args,**kwargs):
-        start_time = time.time() 
-        add = func(*args,**kwargs)
+def log_decorator(func):
+    def wrapper(*args):
+        start_time = time.time()
+        print(f"Starting execution at {start_time:.4f} ")
+        result = func(*args)
+        
         end_time = time.time()
-        print(f"add function start at {start_time} and end at {end_time} and argument are {args},{kwargs} ")
-        return add
+        print(f"Finished execution in {end_time - start_time:.4f} seconds")
+        
+        print(f"Function name : {func.__name__}")
+        print(f"Arguments : {args}")
+        print(f"Return value : {result}")
+        
+        return result
     return wrapper
 
-@execution_time
-def addnum(x, y):
+@log_decorator
+def testing(x, y):
     return x + y
 
-result = addnum(2, 3)
-print(result)
+result = testing(10, 20)
