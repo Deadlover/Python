@@ -47,6 +47,7 @@ print(car.retrieve_odometer())
 
 car.update_odometer(50)  
 
+print(car.retrieve_odometer() + 50) # the cars has extra 50 miles 
 print(car.retrieve_odometer())
 
 
